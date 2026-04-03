@@ -98,7 +98,7 @@ export default function LadderTracker({ ladder, days, dayMatches }: Props) {
                       >
                         Parlay {matches.length}x
                       </span>
-                      <span style={{ color: '#94a3b8' }} className="text-[11px] uppercase tracking-wider">
+                      <span style={{ color: '#ffffff' }} className="text-[11px] uppercase tracking-wider">
                         Combined odds: {day.odds} · ₱{Number(day.stake).toLocaleString()}
                       </span>
                     </div>
@@ -109,7 +109,7 @@ export default function LadderTracker({ ladder, days, dayMatches }: Props) {
                     {matches.length > 0 ? matches.map((m, mi) => (
                       <div key={m.id} className="flex items-center gap-2">
                         {isParlay && (
-                          <span style={{ color: '#1e2d3d', fontSize: 10 }} className="flex-shrink-0">#{mi + 1}</span>
+                          <span style={{ color: '#f2f4f6', fontSize: 10 }} className="flex-shrink-0">#{mi + 1}</span>
                         )}
                         <div className="flex-1 min-w-0">
                           <span className="text-sm font-bold text-white">{m.match_label}</span>
