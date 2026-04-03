@@ -1,5 +1,5 @@
 import { supabase } from './supabase'
-import type { Bet, BankrollEntry } from './types'
+import type { Bet, BankrollEntry, Ladder, LadderDay } from './types'
 
 export async function getBets(): Promise<Bet[]> {
   const { data, error } = await supabase
@@ -38,6 +38,7 @@ export async function getLadderDays(ladderId: string): Promise<LadderDay[]> {
   if (error) throw error
   return data ?? []
 }
+
 export async function getLadderDayMatches(dayIds: string[]) {
   if (dayIds.length === 0) return []
   const { data, error } = await supabase
