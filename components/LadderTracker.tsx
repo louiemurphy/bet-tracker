@@ -21,13 +21,13 @@ export default function LadderTracker({ ladder, days, dayMatches }: Props) {
       {/* Header */}
       <div style={{ background: '#131f2e', borderBottom: '1px solid #1e2d3d' }} className="px-6 py-5 flex items-center justify-between">
         <div>
-          <p style={{ color: '#94a3b8' }} className="text-[11px] uppercase tracking-[0.2em] mb-1">Active Ladder</p>
+          <p style={{ color: '#eff2f5' }} className="text-[11px] uppercase tracking-[0.2em] mb-1">Active Ladder</p>
           <h2 className="text-2xl font-bold text-white tracking-wide">
-            ₱{Number(ladder.starting_bankroll).toLocaleString()} <span style={{ color: '#1e2d3d' }}>→</span> {ladder.total_days} Days
+            ₱{Number(ladder.starting_bankroll).toLocaleString()} <span style={{ color: '#f8f8f8' }}>→</span> {ladder.total_days} Days
           </h2>
         </div>
         <div className="text-right">
-          <p style={{ color: '#94a3b8' }} className="text-[11px] uppercase tracking-[0.2em] mb-1">Bankroll</p>
+          <p style={{ color: '#fbfbfb' }} className="text-[11px] uppercase tracking-[0.2em] mb-1">Bankroll</p>
           <p className="text-3xl font-bold text-white">₱{Number(currentBankroll).toLocaleString()}</p>
           <p className="text-xs mt-0.5" style={{ color: growth >= 0 ? '#22c55e' : '#ef4444' }}>
             {growth >= 0 ? '+' : ''}{growth.toFixed(1)}%
@@ -37,7 +37,7 @@ export default function LadderTracker({ ladder, days, dayMatches }: Props) {
 
       {/* Progress */}
       <div style={{ background: '#0f1923', borderBottom: '1px solid #1e2d3d' }} className="px-6 py-3 flex items-center gap-4">
-        <span style={{ color: '#94a3b8' }} className="text-[11px] uppercase tracking-[0.15em] whitespace-nowrap">
+        <span style={{ color: '#f1f2f4' }} className="text-[11px] uppercase tracking-[0.15em] whitespace-nowrap">
           Day {completedDays} / {ladder.total_days}
         </span>
         <div className="flex-1 h-[3px] rounded-full" style={{ background: '#1e2d3d' }}>
