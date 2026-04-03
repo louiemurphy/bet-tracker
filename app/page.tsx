@@ -1,65 +1,41 @@
-import Image from "next/image";
+import { supabase } from '@/lib/supabase'
+import LadderTracker from '@/components/LadderTracker'
+import NewLadderForm from '@/components/NewLadderForm'
 
-export default function Home() {
+export const revalidate = 0
+
+export default async function Dashboard() {
+  const { data } = await supabase.from('ladder').select('*').eq('status', 'active')
+  const ladder = data?.[0] ?? null
+
+  const ladderDays = ladder
+    ? (await supabase.from('ladder_days').select('*').eq('ladder_id', ladder.id).order('day_number', { ascending: true })).data ?? []
+    : []
+
+  const dayIds = ladderDays.map((d) => d.id)
+  const dayMatches = dayIds.length > 0
+    ? (await supabase.from('ladder_day_matches').select('*').in('ladder_day_id', dayIds)).data ?? []
+    : []
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main className="min-h-screen" style={{ background: '#0f1923', fontFamily: 'var(--font-raj), sans-serif' }}>
+      <div style={{ borderBottom: '1px solid #1e2d3d' }} className="px-8 py-4 flex items-center justify-between">
+        <div>
+          <h1 className="text-lg font-bold text-white tracking-widest uppercase">Bet Tracker</h1>
+          <p style={{ color: '#94a3b8' }} className="text-[11px] uppercase tracking-[0.2em] mt-0.5">Personal record</p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
-  );
+        <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: '#3b82f6' }} />
+      </div>
+
+      <div className="px-8 py-8 max-w-3xl mx-auto">
+        {ladder ? (
+          <LadderTracker ladder={ladder} days={ladderDays} dayMatches={dayMatches} />
+        ) : (
+          <div style={{ border: '1px solid #1e2d3d', background: '#131f2e', borderRadius: 12 }}>
+            <NewLadderForm />
+          </div>
+        )}
+      </div>
+    </main>
+  )
 }
